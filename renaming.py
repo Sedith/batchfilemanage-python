@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import argparse
 from os import listdir, rename
 from os.path import isfile, isdir, join, exists
@@ -21,9 +22,9 @@ if __name__ == '__main__':
     index = args.index
     digits = args.digits
 
-    folders = sorted_aphanumeric([f for f in listdir(path) if isdir(join(path, f))])
+    dirs = sorted_aphanumeric([f for f in listdir(path) if isdir(join(path, f))])
     names = []
-    for fold in folders:
+    for fold in dirs:
         # New filename
         if digits == 2: name = args.name + " %02d" %index
         elif digits == 3: name = args.name + " %03d" %index
@@ -37,6 +38,6 @@ if __name__ == '__main__':
         names += [name]
     print('No naming issues.')
     if not args.test:
-        for fold,name in zip(folders,names):
+        for fold,name in zip(dirs,names):
             print('Renaming ' + fold + ' to ' + name)
             rename(join(path,fold),join(path,name))

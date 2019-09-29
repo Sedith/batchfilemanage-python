@@ -1,8 +1,10 @@
+#!/usr/bin/python3
 import argparse
 from os import listdir, rename, remove, getcwd
 from os.path import isfile, isdir, join
 from shutil import make_archive, move
 import re
+
 parser = argparse.ArgumentParser(description='Zip all folders in working directory and rename them to .cbz.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-d', dest='delete', help='Delete folders after zipping.', action='store_true')
@@ -28,8 +30,8 @@ if __name__ == '__main__':
 
     dirs = sorted_aphanumeric([d for d in listdir(path) if isdir(join(path, d))])
     for file in dirs:
-        if (args.prompt and prompt('Zipping',file)) or not args.prompt:
+        if not args.prompt or (args.prompt and prompt('Zipping',file)):
             file_name=make_archive(file, 'zip', join(getcwd(),path), file)
             move(file+'.zip', join(target,file+'.cbz'))
-            if args.delete and ((args.prompt and prompt('Delete',file)) or not args.prompt):
+            if args.delete and (not args.prompt or (args.prompt and prompt('Delete',file))):
                 remove(join(path,file))
