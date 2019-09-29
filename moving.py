@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 import argparse
-from os import listdir, rename
+from os import listdir, rename, remove, rmdir
 from os.path import isfile, isdir, join, exists
 
 parser = argparse.ArgumentParser(description='Move all files contain in subfolders in working directory.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')
 parser.add_argument('-c', dest='here', help='Move all files from working directory to its parent (forced prompt).', action='store_true')
+parser.add_argument('-d', dest='delete', help='Delete folder after moving its content. -- NOT WORKING WELL', action='store_true')
 args = parser.parse_args()
 
 def prompt(mode, file):
@@ -41,3 +42,5 @@ if __name__ == '__main__':
         while folders != []:
             folder = folders.pop()
             folders += moving(folder, path, args.prompt)
+            if args.delete and not listdir(folder) and (not args.prompt or (args.prompt and prompt('Delete',folder))):
+                rmdir(folder)

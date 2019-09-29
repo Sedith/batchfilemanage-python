@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf test/
 mkdir test/
 mkdir test/test1
 mkdir test/test1/test11
