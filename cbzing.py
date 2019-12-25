@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 import argparse
-from os import listdir, rename, remove, getcwd
-from os.path import isfile, isdir, join
-from shutil import make_archive, move
+from os import listdir, rename, getcwd
+from os.path import isfile, isdir, join, exists
+from shutil import make_archive, move, rmtree
 import re
 
 parser = argparse.ArgumentParser(description='Zip all folders in working directory and rename them to .cbz.')
@@ -16,6 +16,13 @@ def sorted_aphanumeric(data):
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
     return sorted(data, key=alphanum_key)
+
+def remove_folder(path):
+    # check if folder exists
+    if exists(path):
+         rmtree(path)
+    else:
+         print('Folder does not exist.')
 
 def prompt(mode, file):
     while(1):
@@ -31,7 +38,14 @@ if __name__ == '__main__':
     dirs = sorted_aphanumeric([d for d in listdir(path) if isdir(join(path, d))])
     for file in dirs:
         if not args.prompt or (args.prompt and prompt('Zipping',file)):
-            file_name=make_archive(file, 'zip', join(getcwd(),path), file)
+            print('Treating '+file)
+            if exists(join(path,file,'.zip')):
+                print('Skipping: zip file already exists in working directory')
+                continue
+            if exists(join(target,file,'.cbz')):
+                print('Skipping: cbz file already exists in target directory')
+                continue
+            make_archive(file, 'zip', join(getcwd(),path), file)
             move(file+'.zip', join(target,file+'.cbz'))
             if args.delete and (not args.prompt or (args.prompt and prompt('Delete',file))):
-                remove(join(path,file))
+                remove_folder(join(path,file))

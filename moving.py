@@ -7,6 +7,7 @@ parser = argparse.ArgumentParser(description='Move all files contain in subfolde
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')
 parser.add_argument('-c', dest='here', help='Move all files from working directory to its parent (forced prompt).', action='store_true')
+parser.add_argument('-R', dest='recursive', help='Move all files in subfolders of working directory.', action='store_true')
 parser.add_argument('-d', dest='delete', help='Delete folder after moving its content. -- NOT WORKING WELL', action='store_true')
 args = parser.parse_args()
 
@@ -35,6 +36,19 @@ if __name__ == '__main__':
     path = args.path
     if args.here:
         moving(path,join(path,'..'), True)
+    elif args.recursive:
+        wds = []
+        for wd in listdir(path):
+            if not isdir(join(path,wd)) or wd.startswith('.'): continue
+            folders = []
+            wd_path = join(path,wd)
+            for dir in listdir(wd_path):
+                if isdir(join(wd_path,dir)) and not dir.startswith('.'): folders += [join(wd_path,dir)]
+            while folders != []:
+                folder = folders.pop()
+                folders += moving(folder, wd_path, args.prompt)
+                if args.delete and not listdir(folder) and (not args.prompt or (args.prompt and prompt('Delete',folder))):
+                    rmdir(folder)
     else:
         folders = []
         for dir in listdir(path):

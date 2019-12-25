@@ -26,32 +26,34 @@ def numerotage(path, index, digits):
                                      or (f.lower().endswith('.jpg'))
                                      or (f.lower().endswith('.jpeg'))
                                 )])
+    valid_files = []
     names = []
     for file in files:
         # File extension
         if file.lower().endswith('.jpg') or file.lower().endswith('.jpeg'): ext = '.jpg'
         elif file.lower().endswith('.png'): ext = '.png'
-        else: print('Skipping file' + file + ' : not jpg or png') ; continue
+        else: print('Skipping file' + file + ': not jpg or png') ; continue
         # New filename
         im = Image.open(join(path,file))
         if im.size[0] > im.size[1]:
-            if digits == 2: name = "%02d-%02d" %(index,index+1) + ext
+            if digits == 2:   name = "%02d-%02d" %(index,index+1) + ext
             elif digits == 3: name = "%03d-%03d" %(index,index+1) + ext
             index += 2
         else:
-            if digits == 2: name = "%02d" %index + ext
+            if digits == 2:   name = "%02d" %index + ext
             elif digits == 3: name = "%03d" %index + ext
             index += 1
         print('Treating ' + file + ' -> ' + name)
         # Check if new name exists
         if file == name:
-            print('Skipping file' + file + ': already has requested name') ; continue
-        if exists(join(path,name)):
+            print('Skipping file ' + file + ': already has requested name') ; continue
+        if exists(join(path,name)) and (name not in valid_files):
             raise ValueError(join(path,name)+' already exists.')
+        valid_files += [file]
         names += [name]
     print('No naming issues.')
     if not args.test:
-        for file,name in zip(files,names):
+        for file,name in zip(valid_files,names):
             print('Renaming ' + file + ' to ' + name)
             rename(join(path,file),join(path,name))
     return index
