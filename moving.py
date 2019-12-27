@@ -6,7 +6,7 @@ from os.path import isfile, isdir, join, exists
 parser = argparse.ArgumentParser(description='Move all files contain in subfolders in working directory.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')
-parser.add_argument('-c', dest='here', help='Move all files from working directory to its parent (forced prompt).', action='store_true')
+parser.add_argument('-c', dest='here', help='Move all files from working directory to its parent.', action='store_true')
 parser.add_argument('-R', dest='recursive', help='Move all files in subfolders of working directory.', action='store_true')
 parser.add_argument('-d', dest='delete', help='Delete folder after moving its content. -- NOT WORKING WELL', action='store_true')
 args = parser.parse_args()
@@ -35,7 +35,7 @@ def moving(dir, target, _prompt):
 if __name__ == '__main__':
     path = args.path
     if args.here:
-        moving(path,join(path,'..'), True)
+        moving(path,join(path,'..'), args.prompt)
     elif args.recursive:
         wds = []
         for wd in listdir(path):
