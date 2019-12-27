@@ -14,6 +14,12 @@ parser.add_argument('-Ri', dest='keepindex', help='Recursively number all subdir
 parser.add_argument('-t', dest='test', help='Test mode (no actual renaming).', action='store_true')
 args = parser.parse_args()
 
+def prompt(message):
+    while(1):
+        ans = input(message)
+        if ans == 'y': return True
+        elif ans == 'n': return False
+
 def sorted_aphanumeric(data):
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [ convert(c) for c in re.split('([0-9]+)', key) ]
@@ -27,7 +33,9 @@ def numerotage(path, index, digits):
                                      or (f.lower().endswith('.jpeg'))
                                 )])
     valid_files = []
+    conflict_files = []
     names = []
+    conflict = False
     for file in files:
         # File extension
         if file.lower().endswith('.jpg') or file.lower().endswith('.jpeg'): ext = '.jpg'
@@ -48,14 +56,24 @@ def numerotage(path, index, digits):
         if file == name:
             print('Skipping file ' + file + ': already has requested name') ; continue
         if exists(join(path,name)) and (name not in valid_files):
-            raise ValueError(join(path,name)+' already exists.')
+            print('Conflict with ' + file + ' -> ' + name)
+            conflict = True
+            names += ['tmp'+name]
+        else:
+            names += [name]
         valid_files += [file]
-        names += [name]
-    print('No naming issues.')
+    if conflict:
+        if not prompt('Conflicts: confirm before renaming (y/n) > '): exit()
+    else:
+        print('No naming issues.')
     if not args.test:
         for file,name in zip(valid_files,names):
             print('Renaming ' + file + ' to ' + name)
             rename(join(path,file),join(path,name))
+        for name in names:
+            if name.startswith('tmp'):
+                print('Renaming ' + name + ' to ' + name[3:])
+                rename(join(path,name),join(path,name[3:]))
     return index
 
 if __name__ == '__main__':
