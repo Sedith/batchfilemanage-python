@@ -3,6 +3,7 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+print(setuptools.find_packages())
 setuptools.setup(
     name='batch-file-manage-python',
     version='1.0',
@@ -21,6 +22,6 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Sedith/batch-file-manage-python",
-    install_requires=['opencv-python > 3.4'],
-    # classifiers=["Programming Language :: Python :: 3", "License :: The Unlicense"],
+    install_requires=['opencv-python >= 3.4'],
+    license='The Unlicense',
 )
