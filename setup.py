@@ -21,6 +21,6 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Sedith/batch-file-manage-python",
-    # install_requires=['opencv-python > 3.4'],
+    install_requires=['opencv-python > 3.4'],
     # classifiers=["Programming Language :: Python :: 3", "License :: The Unlicense"],
 )

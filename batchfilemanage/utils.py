@@ -14,9 +14,9 @@ def prompt(message, values=None):
     while 1:
         ans = input(message)
         if values is None:
-            if ans == 'y':
+            if ans.lower() == 'y':
                 return True
-            elif ans == 'n':
+            elif ans.lower() == 'n':
                 return False
         elif values == 0:
             try:
