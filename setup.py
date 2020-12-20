@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='bfm',
+    name='batch-file-manage-python',
     version='1.0',
     packages=setuptools.find_packages(),
     scripts=[
