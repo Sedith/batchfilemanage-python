@@ -3,7 +3,6 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-print(setuptools.find_packages())
 setuptools.setup(
     name='batch-file-manage-python',
     version='1.0',
