@@ -40,10 +40,11 @@ def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
     data = [
         f
         for f in listdir(path)
-        if (not dirs and isfile(join(path, f)))
-        or (dirs and isdir(join(path, f)))
-        and f not in ignore
-        and (ext == [] or get_extension(f.lower()) in ext)
+        if (
+            ((not dirs and isfile(join(path, f))) or (dirs and isdir(join(path, f))))
+            and f not in ignore
+            and (ext == [] or get_extension(f.lower()) in ext)
+        )
     ]
     convert = lambda text: int(text) if text.isdigit() else text.lower()
     alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
