@@ -17,10 +17,10 @@ args = parser.parse_args()
 def moving(dir):
     target = join(dir, '..')
     for file in listdir(dir):
-        if not args.prompt or utils.prompt('Moving %s?' % join(dir, file)):
+        if not args.prompt or prompt('Moving %s?' % join(dir, file)):
             print('Moving %s to %s' % (join(dir, file), join(target, file)))
             if exists(join(target, file)):
-                ans = utils.prompt('%s already exists: (o)verwrite/(r)ename/(s)kip?' % join(target, file), ['o', 'r', 's'])
+                ans = prompt('%s already exists: (o)verwrite/(r)ename/(s)kip?' % join(target, file), ['o', 'r', 's'])
                 if ans == 's':
                     continue
                 elif ans == 'r':
@@ -34,8 +34,8 @@ def moving(dir):
                     move(join(dir, file), join(target, file))
             else:
                 move(join(dir, file), join(target, file))
-    if args.delete and (not args.prompt or utils.prompt('Delete %s?' % dir)):
-        utils.remove_folder(dir, verbose=True)
+    if args.delete and (not args.prompt or prompt('Delete %s?' % dir)):
+        remove_folder(dir, verbose=True)
 
 
 if __name__ == '__main__':
@@ -43,9 +43,9 @@ if __name__ == '__main__':
     if args.current:
         moving(path)
     elif args.recursive:
-        for dir in [join(path, d) for d in utils.sorted_aphanumeric(path, dirs=True)]:
-            for subdir in [join(dir, d) for d in utils.sorted_aphanumeric(dir, dirs=True)]:
+        for dir in [join(path, d) for d in sorted_aphanumeric(path, dirs=True)]:
+            for subdir in [join(dir, d) for d in sorted_aphanumeric(dir, dirs=True)]:
                 moving(subdir)
     else:
-        for dir in [join(path, d) for d in utils.sorted_aphanumeric(path, dirs=True)]:
+        for dir in [join(path, d) for d in sorted_aphanumeric(path, dirs=True)]:
             moving(dir)

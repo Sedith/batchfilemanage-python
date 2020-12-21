@@ -22,7 +22,7 @@ def removage(path, word):
                 remove(join(path, file))
             elif args.dirs and (not args.prompt or (args.prompt and prompt('Delete %s?' % file))):
                 print('Removing directory %s' % join(path, file))
-                utils.remove_folder(join(path, file))
+                remove_folder(join(path, file))
         if args.recursive and isdir(join(path, file)):
             removage(join(path, file), word)
 

@@ -16,7 +16,7 @@ if __name__ == '__main__':
     path = args.path
     index = args.index
 
-    dirs = utils.sorted_aphanumeric(args.path, dirs=True)
+    dirs = sorted_aphanumeric(args.path, dirs=True)
     names = []
     for dir in dirs:
         # New dirname

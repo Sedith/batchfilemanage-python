@@ -26,7 +26,7 @@ if __name__ == '__main__':
     path = args.path
 
     offset = args.offset
-    for file in utils.sorted_aphanumeric(path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg']):
+    for file in sorted_aphanumeric(path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg']):
         img = cv2.imread(join(path, file))
         save = True
         (l, r) = cut(img, offset)
@@ -36,7 +36,7 @@ if __name__ == '__main__':
                 cv2.imshow('left', cv2.resize(l, (0, 0), fx=args.resize, fy=args.resize))
                 cv2.imshow('right', cv2.resize(r, (0, 0), fx=args.resize, fy=args.resize))
                 cv2.waitKey(2)
-                ans = utils.prompt('%s - (o)k/(i)gnore/(r)ecut/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
+                ans = prompt('%s - (o)k/(i)gnore/(r)ecut/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
                 if ans == 'o':
                     stop = True
                     save = True
@@ -44,7 +44,7 @@ if __name__ == '__main__':
                     stop = True
                     save = False
                 elif ans == 'r':
-                    offset = utils.prompt('new offset value', 0)
+                    offset = prompt('new offset value', 0)
                     (l, r) = cut(img, offset)
                 elif ans == 'a':
                     args.interactive = False
