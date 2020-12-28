@@ -28,9 +28,17 @@ def prompt(message, values=None):
             return ans
 
 
-def get_extension(file):
+def get_ext(file):
     """Return the extension of the given filename."""
     return file.split('.')[-1]
+
+def remove_ext(file):
+    """Return the given filename without its extension."""
+    l = file.split('.')
+    if len(l) > 1:
+        return l[0]
+    else:
+        return file
 
 
 def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
@@ -43,7 +51,7 @@ def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
         if (
             ((not dirs and isfile(join(path, f))) or (dirs and isdir(join(path, f))))
             and f not in ignore
-            and (ext == [] or get_extension(f.lower()) in ext)
+            and (ext == [] or get_ext(f.lower()) in ext)
         )
     ]
     convert = lambda text: int(text) if text.isdigit() else text.lower()

@@ -3,7 +3,7 @@ import argparse
 from PIL import Image
 from os import rename
 from os.path import join, exists
-from batchfilemanage.utils import sorted_aphanumeric, get_extension
+from batchfilemanage.utils import sorted_aphanumeric, get_ext
 
 parser = argparse.ArgumentParser(description='Number images in directory (jpgs and pngs).')
 parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
@@ -20,7 +20,7 @@ def numerotage(path, index):
     names = []
     for file in sorted_aphanumeric(path, ext=['jpg', 'png', 'jpeg']):
         # File extension
-        ext = get_extension(file).lower()
+        ext = get_ext(file).lower()
         if ext in ['jpg', 'jpeg']:
             ext = '.jpg'
         elif ext == 'png':
