@@ -2,7 +2,7 @@
 import re
 from os import listdir
 from os.path import isfile, isdir, join, exists
-import shutil
+from shutil import rmtree
 
 
 def prompt(message, values=None):
@@ -74,7 +74,7 @@ def remove_folder(path, check_empty=False, verbose=False):
                 print('Target %s is not a directory' % path)
             return -2
         if not check_empty or listdir(path) == []:
-            shutil.rmtree(path)
+            rmtree(path)
             if verbose:
                 print('Folder %s deleted' % path)
             return 0
