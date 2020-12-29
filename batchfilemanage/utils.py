@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import re
 from os import listdir
 from os.path import isfile, isdir, join, exists
