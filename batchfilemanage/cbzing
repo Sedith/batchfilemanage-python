@@ -5,6 +5,7 @@ from os.path import join, exists
 from shutil import make_archive, move
 from batchfilemanage.utils import sorted_aphanumeric, remove_folder, prompt
 
+
 parser = argparse.ArgumentParser(description='Zip all folders in working directory and rename them to .cbz.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-d', dest='delete', help='Delete folders after cbzing.', action='store_true')

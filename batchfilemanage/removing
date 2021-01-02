@@ -4,6 +4,7 @@ from os import listdir, remove
 from os.path import isfile, isdir, join
 from batchfilemanage.utils import remove_folder
 
+
 parser = argparse.ArgumentParser(description='Remove all files with a given string in the name.')
 parser.add_argument(dest='word', help='Word to remove.', type=str)
 parser.add_argument('-R', dest='recursive', help='Recursively remove in all subfolders.', action='store_true')

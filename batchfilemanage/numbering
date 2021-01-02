@@ -5,6 +5,7 @@ from os import rename
 from os.path import join, exists
 from batchfilemanage.utils import sorted_aphanumeric, get_ext
 
+
 parser = argparse.ArgumentParser(description='Number images in directory (jpgs and pngs).')
 parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)

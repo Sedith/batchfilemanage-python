@@ -5,6 +5,7 @@ from os.path import isdir, join, exists
 from shutil import move
 from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_folder
 
+
 parser = argparse.ArgumentParser(description='Move all files contained in subfolders in working directory.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')

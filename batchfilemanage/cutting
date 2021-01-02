@@ -5,6 +5,7 @@ from os import remove
 from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_ext, get_ext
 
+
 parser = argparse.ArgumentParser(description='Cut images in half.')
 parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
 parser.add_argument('-s', dest='direction', help='Reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])

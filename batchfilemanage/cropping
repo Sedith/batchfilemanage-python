@@ -4,6 +4,7 @@ import cv2
 from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt
 
+
 parser = argparse.ArgumentParser(description='Crop images.')
 parser.add_argument(dest='pix', help='Number of pixels to crop.', type=int)
 parser.add_argument(dest='pos', help='Location of pixels to crop (top, right, bottom, left).', choices=['top', 'right', 'bottom', 'left'], type=str)
