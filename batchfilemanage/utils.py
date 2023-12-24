@@ -33,6 +33,7 @@ def get_ext(file):
     """Return the extension of the given filename."""
     return file.split('.')[-1]
 
+
 def remove_ext(file):
     """Return the given filename without its extension."""
     l = file.split('.')
