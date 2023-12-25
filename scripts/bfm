@@ -16,3 +16,5 @@ if __name__ == '__main__':
     ## call mains accordingly
     if args.command == 'cbz':
         batchfilemanage.cbz.main(args)
+    if args.command == 'cut':
+        batchfilemanage.cut.main(args)
