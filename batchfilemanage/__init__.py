@@ -1,7 +1,7 @@
-import batchfilemanage.cbzing
-import batchfilemanage.cropping
-import batchfilemanage.cutting
-import batchfilemanage.moving
-import batchfilemanage.numbering
-import batchfilemanage.removing
-import batchfilemanage.renaming
+import batchfilemanage.cbz
+import batchfilemanage.crop
+import batchfilemanage.cut
+import batchfilemanage.move
+import batchfilemanage.number
+import batchfilemanage.remove
+import batchfilemanage.rename

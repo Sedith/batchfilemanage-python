@@ -5,15 +5,14 @@ import batchfilemanage
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Batch file manager.')
-    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-    parser.add_argument('-v', dest='verbose', help='Enables verbosity.', action='store_true')
-
     subparsers = parser.add_subparsers(dest='command', description='Command to be called.', required=True)
 
-    batchfilemanage.cbzing.create_args(subparsers)
-    batchfilemanage.cutting.create_args(subparsers)
+    ## create arg parsers for each subcommands
+    batchfilemanage.cbz.create_args(subparsers)
+    batchfilemanage.cut.create_args(subparsers)
 
     args = parser.parse_args()
 
+    ## call mains accordingly
     if args.command == 'cbz':
-        batchfilemanage.cbzing.main(args)
+        batchfilemanage.cbz.main(args)

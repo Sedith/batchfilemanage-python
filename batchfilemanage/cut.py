@@ -7,7 +7,7 @@ from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_ext, get_ex
 
 
 ## command description line
-desc = 'Vertically cut images in half.'
+desc = 'Cut images in half (vertically).'
 
 def create_args(subparsers):
     parser = subparsers.add_parser('cut', description=desc, help=desc)

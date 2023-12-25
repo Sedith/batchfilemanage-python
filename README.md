@@ -1,33 +1,33 @@
 # batch-file-manage-python
 
-Contains a set of scripts to ease the management of batches of files, in particular images collections (mangas or comics collections)
+Contains a set of scripts to ease the enable of batches of files, in particular images (e.g., mangas or comics collections).
 
 ## Description of scripts
 
-##### CBZing
+##### CBZ
 
 Zip all folders in working directory and rename them to .cbz.
 
-##### Cropping
+##### Crop
 
 Crop images.
 
-##### Cutting
+##### Cut
 
 Cut images in half (vertically).
 
-##### Moving
+##### Move
 
 Move all files contained in subfolders in working directory.
 
-##### Numbering
+##### Number
 
 Rename all images (jpgs and pngs) in directory with increasing numbers.
 
-##### Removing
+##### Remove
 
 Remove all files with a given string in the name.
 
-##### Renaming
+##### Rename
 
 Rename folders as desired, adding increasing numbers.

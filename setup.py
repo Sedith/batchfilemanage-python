@@ -5,15 +5,10 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='batch-file-manage',
-    version='1.0',
+    version='2.0',
     packages=setuptools.find_packages(),
     scripts=[
-        'batchfilemanage/cbzing.py',
-        'batchfilemanage/cropping.py',
-        'batchfilemanage/cutting.py',
-        'batchfilemanage/moving.py',
-        'batchfilemanage/numbering.py',
-        'batchfilemanage/renaming.py',
+        'batchfilemanage/bfm',
     ],
     author="Martin Jacquet",
     author_email="martin.jacquet@posteo.net",
