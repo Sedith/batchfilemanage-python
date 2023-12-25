@@ -6,15 +6,21 @@ from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_ext, get_ext
 
 
-parser = argparse.ArgumentParser(description='Cut images in half.')
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-s', dest='direction', help='Reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])
-parser.add_argument('-i', dest='interactive', help='Display and prompt for each image.', action='store_true')
-parser.add_argument('-d', dest='delete', help='Delete source file after cutting.', action='store_true')
-parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
-parser.add_argument('-o', dest='offset', help='Offset in pixels (positive to the right).', default=0, type=int)
-parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
-args = parser.parse_args()
+## command description line
+desc = 'Vertically cut images in half.'
+
+def create_args(subparsers):
+    parser = subparsers.add_parser('cut', description=desc, help=desc)
+
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-s', dest='direction', help='Reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])
+    parser.add_argument('-i', dest='interactive', help='Interactive prompt for each image.', action='store_true')
+    parser.add_argument('-d', dest='delete', help='Delete source file after cutting.', action='store_true')
+    parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
+    parser.add_argument('-o', dest='offset', help='Offset in pixels (positive to the right).', default=0, type=int)
+    parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
+
+    return parser
 
 
 def cut(img, offset):
@@ -25,6 +31,16 @@ def cut(img, offset):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Cut images in half.')
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-s', dest='direction', help='Reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])
+    parser.add_argument('-i', dest='interactive', help='Display and prompt for each image.', action='store_true')
+    parser.add_argument('-d', dest='delete', help='Delete source file after cutting.', action='store_true')
+    parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
+    parser.add_argument('-o', dest='offset', help='Offset in pixels (positive to the right).', default=0, type=int)
+    parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
+    args = parser.parse_args()
+
     path = args.path
 
     offset = args.offset

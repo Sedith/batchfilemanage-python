@@ -6,15 +6,6 @@ from shutil import move
 from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_folder
 
 
-parser = argparse.ArgumentParser(description='Move all files contained in subfolders in working directory.')
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')
-parser.add_argument('-c', dest='current', help='Move all files from the current working directory to its parent.', action='store_true')
-parser.add_argument('-R', dest='recursive', help='Run in all the subfolders of working directory.', action='store_true')
-parser.add_argument('-d', dest='delete', help='Delete folder after moving its content.', action='store_true')
-args = parser.parse_args()
-
-
 def moving(dir):
     target = join(dir, '..')
     for file in listdir(dir):
@@ -40,6 +31,14 @@ def moving(dir):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Move all files contained in subfolders in working directory.')
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-i', dest='prompt', help='Prompt before moving.', action='store_true')
+    parser.add_argument('-c', dest='current', help='Move all files from the current working directory to its parent.', action='store_true')
+    parser.add_argument('-R', dest='recursive', help='Run in all the subfolders of working directory.', action='store_true')
+    parser.add_argument('-d', dest='delete', help='Delete folder after moving its content.', action='store_true')
+    args = parser.parse_args()
+
     path = args.path
     if args.current:
         moving(path)

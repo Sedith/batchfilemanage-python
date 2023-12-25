@@ -6,24 +6,48 @@ from shutil import make_archive, move
 from batchfilemanage.utils import sorted_aphanumeric, remove_folder, prompt
 
 
-parser = argparse.ArgumentParser(description='Zip all folders in working directory and rename them to .cbz.')
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-d', dest='delete', help='Delete folders after cbzing.', action='store_true')
-parser.add_argument('-i', dest='prompt', help='Prompt before every cbzing and removal.', action='store_true')
-args = parser.parse_args()
+## command description line
+desc = 'Zip all folders in working directory and rename them to .cbz.'
 
-if __name__ == '__main__':
-    path = args.path
+def create_args(subparsers=None):
+    if subparsers:
+        parser = subparsers.add_parser('cbz', description=desc, help=desc)
+    else:
+        parser = argparse.ArgumentParser(description=desc)
 
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-d', dest='delete', help='Delete folders after cbzing.', action='store_true')
+    parser.add_argument('-i', dest='prompt', help='Interactive prompt.', action='store_true')
+
+    return parser
+
+
+def main(args):
+    ## get list of directories
     dirs = sorted_aphanumeric(args.path, dirs=True)
+
     for dir in dirs:
         if not args.prompt or prompt('Cbzing %s?' % dir):
-            if exists(join(path, dir, '.cbz')):
+            ## check if the cbz already exists
+            if exists(join(args.path, dir, '.cbz')):
                 print('Skipping: cbz file already exists in working directory')
                 continue
-            if not exists(join(path, dir, '.zip')):
+
+            ## create archive
+            if not exists(join(args.path, dir, '.zip')):
                 print('Cbzing %s' % dir)
-                make_archive(dir, 'zip', join(getcwd(), path), dir)
-            move(dir + '.zip', join(path, dir + '.cbz'))
+                make_archive(dir, 'zip', join(getcwd(), args.path), dir)
+
+            ## rename to .cbz
+            move(dir + '.zip', join(args.path, dir + '.cbz'))
+
+            ## delete folder
             if args.delete and (not args.prompt or prompt('Delete %s?' % dir)):
-                remove_folder(join(path, dir))
+                print('Removing %s' % dir)
+                remove_folder(join(args.path, dir))
+
+
+if __name__ == '__main__':
+    parser = create_args()
+    args = parser.parse_args()
+    main(args)

@@ -7,7 +7,7 @@ from shutil import rmtree
 
 def prompt(message, values=None):
     """Prompt a message and return the user input.
-    Set values to None for binary input ('y' or 'n'), to 0 for integer input, or to a list of possible inputs.
+    Set values to None for binary input ('y' or 'n'), to 0 for integer input, or to a list of multiple choices inputs.
     """
     if values is None:
         message += ' (y/n)'
@@ -45,7 +45,9 @@ def remove_ext(file):
 
 def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
     """Alphanumeric sort all files in path.
-    Only consider extensions in ext, ignore filenames in ignore, and list only directions if dirs.
+    ext         -- extensions of files to consider, if applicable
+    ignore      -- files to ignore
+    dirs        -- list only directories
     """
     data = [
         f
@@ -63,10 +65,13 @@ def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
 
 def remove_folder(path, check_empty=False, verbose=False):
     """Delete the target folder path.
-    Returns:    0   target deleted
-                -1  target does not exist
-                -2  target not a directory
-                -3  target not empty
+    check_empty -- check if folder is empty before removing
+    verbose     -- enables verbosity
+    returns:
+    0           -- target deleted
+    -1          -- target does not exist
+    -2          -- target not a directory
+    -3          -- target not empty
     """
     # check if folder exists
     if exists(path):

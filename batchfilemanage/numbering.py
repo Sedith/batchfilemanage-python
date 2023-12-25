@@ -6,17 +6,6 @@ from os.path import join, exists
 from batchfilemanage.utils import sorted_aphanumeric, get_ext
 
 
-parser = argparse.ArgumentParser(description='Number images in directory (jpgs and pngs).')
-parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-d', dest='digits', help='Number of digits.', default=3, choices=[2, 3], type=int)
-parser.add_argument('-R', dest='recursive', help='Recursively number all subdirectories.', action='store_true')
-parser.add_argument('-k', dest='keepindex', help='Recursively number all subdirectories without reseting index.', action='store_true')
-parser.add_argument('-g', dest='gap', help='Gap between each successive index.', default=1, type=int)
-parser.add_argument('-t', dest='test', help='Test mode (no actual renaming).', action='store_true')
-args = parser.parse_args()
-
-
 def numerotage(path, index):
     names = []
     for file in sorted_aphanumeric(path, ext=['jpg', 'png', 'jpeg']):
@@ -56,6 +45,16 @@ def numerotage(path, index):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Number images in directory (jpgs and pngs).')
+    parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-d', dest='digits', help='Number of digits.', default=3, choices=[2, 3], type=int)
+    parser.add_argument('-R', dest='recursive', help='Recursively number all subdirectories.', action='store_true')
+    parser.add_argument('-k', dest='keepindex', help='Recursively number all subdirectories without reseting index.', action='store_true')
+    parser.add_argument('-g', dest='gap', help='Gap between each successive index.', default=1, type=int)
+    parser.add_argument('-t', dest='test', help='Test mode (no actual renaming).', action='store_true')
+    args = parser.parse_args()
+
     if args.recursive or args.keepindex:
         index = args.index
         for dir in [join(args.path, d) for d in sorted_aphanumeric(args.path, dirs=True)]:

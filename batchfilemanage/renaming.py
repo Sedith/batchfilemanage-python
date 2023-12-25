@@ -5,15 +5,15 @@ from os.path import join, exists
 from batchfilemanage.utils import sorted_aphanumeric
 
 
-parser = argparse.ArgumentParser(description='Rename folders as with increasing numbers.')
-parser.add_argument(dest='name', help='Base name for renaming.', type=str)
-parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-d', dest='digits', help='Number of digits.', default=2, choices=[2, 3], type=int)
-parser.add_argument('-t', dest='test', help='Test mode.', action='store_true')
-args = parser.parse_args()
-
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Rename folders as with increasing numbers.')
+    parser.add_argument(dest='name', help='Base name for renaming.', type=str)
+    parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-d', dest='digits', help='Number of digits.', default=2, choices=[2, 3], type=int)
+    parser.add_argument('-t', dest='test', help='Test mode.', action='store_true')
+    args = parser.parse_args()
+    
     path = args.path
     index = args.index
 

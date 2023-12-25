@@ -5,16 +5,6 @@ from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt
 
 
-parser = argparse.ArgumentParser(description='Crop images.')
-parser.add_argument(dest='pix', help='Number of pixels to crop.', type=int)
-parser.add_argument(dest='pos', help='Location of pixels to crop (top, right, bottom, left).', choices=['top', 'right', 'bottom', 'left'], type=str)
-parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
-parser.add_argument('-i', dest='interactive', help='Interactive mode.', action='store_true')
-parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
-args = parser.parse_args()
-
-
 def crop(img, pos, pix):
     if pos == 'left':
         imgcrop = img[:, pix:-1]
@@ -28,6 +18,15 @@ def crop(img, pos, pix):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Crop images.')
+    parser.add_argument(dest='pix', help='Number of pixels to crop.', type=int)
+    parser.add_argument(dest='pos', help='Location of pixels to crop (top, right, bottom, left).', choices=['top', 'right', 'bottom', 'left'], type=str)
+    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
+    parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
+    parser.add_argument('-i', dest='interactive', help='Interactive mode.', action='store_true')
+    parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
+    args = parser.parse_args()
+
     path = args.path
     pix = args.pix
 
