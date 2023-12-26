@@ -37,7 +37,7 @@ def removing(path, args):
                 print('Removing directory %s' % join(path, file))
                 remove_folder(join(path, file))
         if args.recursive and isdir(join(path, file)):
-            removing(join(path, file), args.word)
+            removing(join(path, file), args)
 
 
 def main(args):
