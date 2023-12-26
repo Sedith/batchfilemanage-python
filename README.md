@@ -4,7 +4,7 @@ Contains a set of scripts to ease the enable of batches of files, in particular 
 
 ## Prerequirements
 
-Scripts use only `os`, `shutil`, `argparse` and `PIL`.
+Scripts use `os`, `shutil`, `argparse`, `PIL` and `matplotlib`.
 If available in python env, will load `argcomplete`.
 
 
