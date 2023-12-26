@@ -17,8 +17,8 @@ def create_args(subparsers=None):
     parser.add_argument(dest='pix', help='number of pixels to crop', type=int)
     parser.add_argument(dest='pos', help='location of pixels to crop (top, right, bottom, left)', choices=['top', 'right', 'bottom', 'left'], type=str)
     parser.add_argument('-p', dest='path', help='path to working directory', default='./', type=str)
-    parser.add_argument('-d', dest='delete', help='delete source file after cutting', action='store_true')
     parser.add_argument('-i', dest='interactive', help='interactive prompt', action='store_true')
+    parser.add_argument('-r', dest='replace', help='replace source file with cropped image (instead of creating a copy by appending "_crop")', action='store_true')
     parser.add_argument('-n', dest='ignore', help='filenames of images to ignore', default=[], type=str, nargs='*')
 
     return parser
@@ -78,11 +78,11 @@ def main(args):
 
         if save:
             print('Cropping %s of %i pixels at %s' % (file, args.pix, args.pos))
-            file_noext = remove_ext(file)
-            ext = get_ext(file)
-            plt.imsave(join(args.path, file_noext + '_crop.' + ext), imgcrop)
-            if args.delete:
-                remove(join(args.path, file))
+            if args.replace:
+                oufile = file
+            else:
+                outfile = remove_ext(file) + '_crop' + get_ext(file)
+            plt.imsave(join(args.path, outfile), imgcrop)
 
 
 if __name__ == '__main__':
