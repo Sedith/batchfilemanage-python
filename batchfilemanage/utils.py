@@ -31,7 +31,7 @@ def prompt(message, values=None):
 
 def get_ext(file):
     """Return the extension of the given filename."""
-    return splitext(file.lower())[1]
+    return splitext(file.lower())[1][1:]
 
 
 def remove_ext(file):
