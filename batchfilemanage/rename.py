@@ -6,7 +6,7 @@ from batchfilemanage.utils import sorted_aphanumeric
 
 
 ## command description line
-desc = 'rename folders and append increasing numbers'
+desc = 'rename all folders and append increasing increasing'
 
 def create_args(subparsers=None):
     if subparsers:

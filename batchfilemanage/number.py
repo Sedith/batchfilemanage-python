@@ -7,7 +7,7 @@ from batchfilemanage.utils import sorted_aphanumeric, get_ext
 
 
 ## command description line
-desc = 'number images with increasing indices'
+desc = 'rename all images with increasing indices'
 
 def create_args(subparsers=None):
     if subparsers:
