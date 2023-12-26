@@ -8,7 +8,7 @@ setuptools.setup(
     version='2.0',
     packages=setuptools.find_packages(),
     scripts=[
-        'batchfilemanage/bfm',
+        'scripts/bfm',
     ],
     author="Martin Jacquet",
     author_email="martin.jacquet@posteo.net",
