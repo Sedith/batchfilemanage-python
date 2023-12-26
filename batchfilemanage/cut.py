@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 import argparse
-import cv2
+import matplotlib.pyplot as plt
 from os import remove
 from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_ext, get_ext
-import matplotlib.pyplot as plt
 
 
 ## command description line
@@ -38,7 +37,7 @@ def main(args):
     images = sorted_aphanumeric(args.path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg'])
 
     for file in images:
-        img = cv2.imread(join(args.path, file))
+        img = plt.imread(join(args.path, file))
         (l, r) = cut(img, args.offset)
         save = True
 
@@ -80,11 +79,11 @@ def main(args):
             file_noext = remove_ext(file)
             ext = get_ext(file)
             if args.direction == 'rl': # right side then left side
-                cv2.imwrite(join(args.path, file_noext + '_1.' + ext), r)
-                cv2.imwrite(join(args.path, file_noext + '_2.' + ext), l)
+                plt.imsave(join(args.path, file_noext + '_1.' + ext), r)
+                plt.imsave(join(args.path, file_noext + '_2.' + ext), l)
             else:
-                cv2.imwrite(join(args.path, file_noext + '_2.' + ext), r)
-                cv2.imwrite(join(args.path, file_noext + '_1.' + ext), l)
+                plt.imsave(join(args.path, file_noext + '_2.' + ext), r)
+                plt.imsave(join(args.path, file_noext + '_1.' + ext), l)
             if args.delete:
                 remove(join(args.path, file))
 

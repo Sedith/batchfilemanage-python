@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 import argparse
-import cv2
+import matplotlib.pyplot as plt
 from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt
 
@@ -41,7 +41,7 @@ def main(args):
     images = sorted_aphanumeric(args.path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg'])
 
     for file in images:
-        img = cv2.imread(join(args.path, file))
+        img = plt.imread(join(args.path, file))
         imgcrop = crop(img, args.pos, args.pix)
         save = True
 
@@ -80,7 +80,7 @@ def main(args):
             print('Cropping %s of %i pixels at %s' % (file, args.pix, args.pos))
             file_noext = remove_ext(file)
             ext = get_ext(file)
-            cv2.imwrite(join(args.path, file_noext + '_crop.' + ext), r)
+            plt.imsave(join(args.path, file_noext + '_crop.' + ext), imgcrop)
             if args.delete:
                 remove(join(args.path, file))
 
