@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import argparse
+from PIL import Image
 import matplotlib.pyplot as plt
 from os.path import join
-from batchfilemanage.utils import sorted_aphanumeric, prompt
+from batchfilemanage.utils import sorted_aphanumeric, prompt, remove_ext, get_ext
 
 
 ## command description line
@@ -42,6 +43,8 @@ def main(args):
 
     for file in images:
         img = plt.imread(join(args.path, file))
+        if img.dtype == 'float32': img = (img*255).astype('uint8')  # matplotlib imread messes with pngs and read them as floats
+
         imgcrop = crop(img, args.pos, args.pix)
         save = True
 
@@ -56,8 +59,8 @@ def main(args):
                 ax = [fig.add_subplot(121), fig.add_subplot(122)]
                 ax[0].set_xlabel('original')
                 ax[1].set_xlabel('cropped')
-                ax[0].imshow(img)
-                ax[1].imshow(imgcrop)
+                ax[0].imshow(img, cmap='gray', vmin=0, vmax=255)
+                ax[1].imshow(imgcrop, cmap='gray', vmin=0, vmax=255)
                 plt.show(block=False)
 
                 ans = prompt('%s - (o)k/(i)gnore/(r)ecrop/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
@@ -81,8 +84,9 @@ def main(args):
             if args.replace:
                 oufile = file
             else:
-                outfile = remove_ext(file) + '_crop' + get_ext(file)
-            plt.imsave(join(args.path, outfile), imgcrop)
+                outfile = remove_ext(file) + '_crop.' + get_ext(file)
+            imgcrop = Image.fromarray(imgcrop)
+            imgcrop.save(join(args.path, outfile))
 
 
 if __name__ == '__main__':

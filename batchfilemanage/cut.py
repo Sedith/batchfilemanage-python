@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import argparse
+from PIL import Image
 import matplotlib.pyplot as plt
 from os import remove
 from os.path import join
@@ -38,6 +39,14 @@ def main(args):
 
     for file in images:
         img = plt.imread(join(args.path, file))
+        if img.dtype == 'float32': img = (img*255).astype('uint8')  # matplotlib imread messes with pngs and read them as floats
+
+        ## skip vertical images
+        h, w = img.shape[:2]
+        if w < h:
+            continue
+
+
         (l, r) = cut(img, args.offset)
         save = True
 
@@ -54,8 +63,8 @@ def main(args):
                 ax[1].get_yaxis().set_visible(False)
                 ax[0].set_xlabel('left image')
                 ax[1].set_xlabel('right image')
-                ax[0].imshow(l)
-                ax[1].imshow(r)
+                ax[0].imshow(l, cmap='gray', vmin=0, vmax=255)
+                ax[1].imshow(r, cmap='gray', vmin=0, vmax=255)
                 plt.show(block=False)
 
                 ans = prompt('%s - (o)k/(i)gnore/(r)ecut/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
@@ -78,12 +87,14 @@ def main(args):
             print('Cutting %s with offset of %i' % (file, args.offset))
             file_noext = remove_ext(file)
             ext = get_ext(file)
+            r = Image.fromarray(r)
+            l = Image.fromarray(l)
             if args.direction == 'rl': # right side then left side
-                plt.imsave(join(args.path, file_noext + '_1.' + ext), r)
-                plt.imsave(join(args.path, file_noext + '_2.' + ext), l)
+                r.save(join(args.path, file_noext + '_1.' + ext))
+                l.save(join(args.path, file_noext + '_2.' + ext))
             else:
-                plt.imsave(join(args.path, file_noext + '_2.' + ext), r)
-                plt.imsave(join(args.path, file_noext + '_1.' + ext), l)
+                r.save(join(args.path, file_noext + '_2.' + ext))
+                l.save(join(args.path, file_noext + '_1.' + ext))
             if args.delete:
                 remove(join(args.path, file))
 
