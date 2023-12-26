@@ -2,7 +2,7 @@
 import argparse
 from os import listdir, remove
 from os.path import isfile, isdir, join
-from batchfilemanage.utils import remove_folder
+from batchfilemanage.utils import remove_folder, prompt
 
 
 ## command description line
