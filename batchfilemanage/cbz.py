@@ -7,7 +7,7 @@ from batchfilemanage.utils import sorted_aphanumeric, remove_folder, prompt
 
 
 ## command description line
-desc = 'zip all folders in working directory and rename them to .cbz'
+desc = 'zip all folders and rename them to .cbz'
 
 def create_args(subparsers=None):
     if subparsers:
