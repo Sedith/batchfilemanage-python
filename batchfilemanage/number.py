@@ -6,16 +6,41 @@ from os.path import join, exists
 from batchfilemanage.utils import sorted_aphanumeric, get_ext
 
 
-def numerotage(path, index):
+## command description line
+desc = 'number images with increasing indices'
+
+def create_args(subparsers=None):
+    if subparsers:
+        parser = subparsers.add_parser('number', description=desc, help=desc)
+    else:
+        parser = argparse.ArgumentParser(description=desc)
+
+    parser.add_argument('-p', dest='path', help='path to working directory', default='./', type=str)
+    parser.add_argument('-i', dest='index', help='starting index', default=1, type=int)
+    parser.add_argument('-d', dest='digits', help='number of digits', default=3, choices=[2, 3], type=int)
+    parser.add_argument('-r', dest='recursive', help='recursively number in all subdirectories', action='store_true')
+    parser.add_argument('-k', dest='keepindex', help='recursively number in all subdirectories without reseting index', action='store_true')
+    parser.add_argument('-g', dest='gap', help='gap between each successive index', default=1, type=int)
+    parser.add_argument('-t', dest='test', help='test mode (no actual renaming)', action='store_true')
+
+    return parser
+
+
+def number_folder(path, index):
+    ## get list of images
+    images = sorted_aphanumeric(path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg'])
+
+    print('Renaming in directory %s' % dir)
     names = []
-    for file in sorted_aphanumeric(path, ext=['jpg', 'png', 'jpeg']):
-        # File extension
+    for file in images:
+        ## get file extension
         ext = get_ext(file).lower()
         if ext in ['jpg', 'jpeg']:
             ext = '.jpg'
         elif ext == 'png':
             ext = '.png'
-        # New filename
+
+        ## create new filename
         (w, h) = Image.open(join(path, file)).size
         if w > h:
             if args.digits == 2:
@@ -29,38 +54,38 @@ def numerotage(path, index):
             elif args.digits == 3:
                 name = "%03d" % index + ext
             index += args.gap
-        # Renaming to temporary name
+
+        ## renaming to temporary name
         if file == name:
             continue
         print('Renaming %s -> %s' % (file, name))
         names += [name]
         if not args.test:
             rename(join(path, file), join(path, 'tmp' + name))
-    # Renaming to final name
+
+    ## renaming to final name
     if not args.test:
         for name in names:
             rename(join(path, 'tmp' + name), join(path, name))
-    print('Done')
+
     return index
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Number images in directory (jpgs and pngs).')
-    parser.add_argument('-i', dest='index', help='Index to start with.', default=1, type=int)
-    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-    parser.add_argument('-d', dest='digits', help='Number of digits.', default=3, choices=[2, 3], type=int)
-    parser.add_argument('-R', dest='recursive', help='Recursively number all subdirectories.', action='store_true')
-    parser.add_argument('-k', dest='keepindex', help='Recursively number all subdirectories without reseting index.', action='store_true')
-    parser.add_argument('-g', dest='gap', help='Gap between each successive index.', default=1, type=int)
-    parser.add_argument('-t', dest='test', help='Test mode (no actual renaming).', action='store_true')
-    args = parser.parse_args()
-
+def main(args):
     if args.recursive or args.keepindex:
+        ## get list of directories in path
+        dirs = sorted_aphanumeric(args.path, dirs=True)
+
         index = args.index
-        for dir in [join(args.path, d) for d in sorted_aphanumeric(args.path, dirs=True)]:
-            print('Renaming in directory %s' % dir)
+        for dir in [join(args.path, d) for d in dirs]:
             if not args.keepindex:
                 index = args.index
-            index = numerotage(dir, index)
+            index = number_folder(dir, index)
     else:
-        numerotage(args.path, args.index)
+        number_folder(args.path, args.index)
+
+
+if __name__ == '__main__':
+    parser = create_args()
+    args = parser.parse_args()
+    main(args)

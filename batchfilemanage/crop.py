@@ -5,6 +5,25 @@ from os.path import join
 from batchfilemanage.utils import sorted_aphanumeric, prompt
 
 
+## command description line
+desc = 'crop bands of pixels from images'
+
+def create_args(subparsers=None):
+    if subparsers:
+        parser = subparsers.add_parser('crop', description=desc, help=desc)
+    else:
+        parser = argparse.ArgumentParser(description=desc)
+
+    parser.add_argument(dest='pix', help='number of pixels to crop', type=int)
+    parser.add_argument(dest='pos', help='location of pixels to crop (top, right, bottom, left)', choices=['top', 'right', 'bottom', 'left'], type=str)
+    parser.add_argument('-p', dest='path', help='path to working directory', default='./', type=str)
+    parser.add_argument('-d', dest='delete', help='delete source file after cutting', action='store_true')
+    parser.add_argument('-i', dest='interactive', help='interactive prompt', action='store_true')
+    parser.add_argument('-n', dest='ignore', help='filenames of images to ignore', default=[], type=str, nargs='*')
+
+    return parser
+
+
 def crop(img, pos, pix):
     if pos == 'left':
         imgcrop = img[:, pix:-1]
@@ -17,44 +36,56 @@ def crop(img, pos, pix):
     return imgcrop
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Crop images.')
-    parser.add_argument(dest='pix', help='Number of pixels to crop.', type=int)
-    parser.add_argument(dest='pos', help='Location of pixels to crop (top, right, bottom, left).', choices=['top', 'right', 'bottom', 'left'], type=str)
-    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-    parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
-    parser.add_argument('-i', dest='interactive', help='Interactive mode.', action='store_true')
-    parser.add_argument('-r', dest='resize', help='Resize factor for display.', default=0.5, type=float)
-    args = parser.parse_args()
+def main(args):
+    ## get list of images
+    images = sorted_aphanumeric(args.path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg'])
 
-    path = args.path
-    pix = args.pix
-
-    for file in sorted_aphanumeric(path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg']):
-        img = cv2.imread(join(path, file))
-        imgcrop = crop(img, args.pos, pix)
+    for file in images:
+        img = cv2.imread(join(args.path, file))
+        imgcrop = crop(img, args.pos, args.pix)
         save = True
+
         if args.interactive:
-            stop = False
-            while not stop:
-                cv2.imshow('original', cv2.resize(img, (0, 0), fx=args.resize, fy=args.resize))
-                cv2.imshow('cropped', cv2.resize(imgcrop, (0, 0), fx=args.resize, fy=args.resize))
-                cv2.waitKey(2)
+            fig = None
+
+            while 1:
+                ## check that figure is still open
+                if not fig or not plt.fignum_exists(fig.number):
+                    fig = plt.figure('cropping')
+                fig.clear()
+                ax = [fig.add_subplot(121), fig.add_subplot(122)]
+                ax[0].set_xlabel('original')
+                ax[1].set_xlabel('cropped')
+                ax[0].imshow(img)
+                ax[1].imshow(imgcrop)
+                plt.show(block=False)
+
                 ans = prompt('%s - (o)k/(i)gnore/(r)ecrop/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
                 if ans == 'o':
-                    stop = True
                     save = True
+                    break
                 elif ans == 'i':
-                    stop = True
                     save = False
+                    break
                 elif ans == 'r':
-                    pix = prompt('new crop value', 0)
-                    imgcrop = crop(img, args.pos, pix)
+                    args.pix = prompt('new crop value', 0)
+                    imgcrop = crop(img, args.pos, args.pix)
                 elif ans == 'a':
                     args.interactive = False
-                    stop = True
+                    break
                 elif ans == 'c':
                     exit()
-        if save or not args.interactive:
-            print('Cropping %s of %i pixels at %s' % (file, pix, args.pos))
-            cv2.imwrite(join(path, file), imgcrop)
+
+        if save:
+            print('Cropping %s of %i pixels at %s' % (file, args.pix, args.pos))
+            file_noext = remove_ext(file)
+            ext = get_ext(file)
+            cv2.imwrite(join(args.path, file_noext + '_crop.' + ext), r)
+            if args.delete:
+                remove(join(args.path, file))
+
+
+if __name__ == '__main__':
+    parser = create_args()
+    args = parser.parse_args()
+    main(args)

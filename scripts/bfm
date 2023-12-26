@@ -9,12 +9,20 @@ if __name__ == '__main__':
 
     ## create arg parsers for each subcommands
     batchfilemanage.cbz.create_args(subparsers)
+    batchfilemanage.crop.create_args(subparsers)
     batchfilemanage.cut.create_args(subparsers)
+    batchfilemanage.move.create_args(subparsers)
+    batchfilemanage.number.create_args(subparsers)
+    batchfilemanage.remove.create_args(subparsers)
+    batchfilemanage.rename.create_args(subparsers)
 
     args = parser.parse_args()
 
     ## call mains accordingly
-    if args.command == 'cbz':
-        batchfilemanage.cbz.main(args)
-    if args.command == 'cut':
-        batchfilemanage.cut.main(args)
+    if args.command == 'cbz': batchfilemanage.cbz.main(args)
+    if args.command == 'crop': batchfilemanage.crop.main(args)
+    if args.command == 'cut': batchfilemanage.cut.main(args)
+    if args.command == 'move': batchfilemanage.move.main(args)
+    if args.command == 'number': batchfilemanage.number.main(args)
+    if args.command == 'remove': batchfilemanage.remove.main(args)
+    if args.command == 'rename': batchfilemanage.rename.main(args)

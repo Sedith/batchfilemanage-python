@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 ## command description line
-desc = 'Cut images in half (vertically).'
+desc = 'cut images in half (vertically)'
 
 def create_args(subparsers=None):
     if subparsers:
@@ -16,13 +16,12 @@ def create_args(subparsers=None):
     else:
         parser = argparse.ArgumentParser(description=desc)
 
-    parser.add_argument('-p', dest='path', help='Path to working directory.', default='./', type=str)
-    parser.add_argument('-d', dest='delete', help='Delete source file after cutting.', action='store_true')
-    parser.add_argument('-i', dest='interactive', help='Interactive prompt.', action='store_true')
-    parser.add_argument('-s', dest='direction', help='Reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])
-    parser.add_argument('-n', dest='ignore', help='Filenames of images to ignore.', default=[], type=str, nargs='*')
-    parser.add_argument('-o', dest='offset', help='Offset in pixels (positive to the right).', default=0, type=int)
-    parser.add_argument('-r', dest='resize', help='Resize factor for display (in interactive mode).', default=0.5, type=float)
+    parser.add_argument('-p', dest='path', help='path to working directory', default='./', type=str)
+    parser.add_argument('-d', dest='delete', help='delete source file after cutting', action='store_true')
+    parser.add_argument('-i', dest='interactive', help='interactive prompt', action='store_true')
+    parser.add_argument('-s', dest='direction', help='reading direction (lr: left to write; rl: right to left)', default='rl', type=str, choices=['lr', 'rl'])
+    parser.add_argument('-n', dest='ignore', help='filenames of images to ignore', default=[], type=str, nargs='*')
+    parser.add_argument('-o', dest='offset', help='offset in pixels (positive to the right)', default=0, type=int)
 
     return parser
 
@@ -59,7 +58,7 @@ def main(args):
                 ax[0].imshow(l)
                 ax[1].imshow(r)
                 plt.show(block=False)
-                
+
                 ans = prompt('%s - (o)k/(i)gnore/(r)ecut/(a)ll/(c)ancel' % file, ['o', 'i', 'r', 'a', 'c'])
                 if ans == 'o':
                     save = True
