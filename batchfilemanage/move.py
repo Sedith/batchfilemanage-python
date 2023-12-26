@@ -24,11 +24,11 @@ def create_args(subparsers=None):
     return parser
 
 
-def move_dir_content(dir):
+def move_dir_content(dir, args):
     ## get parent folder path
     target = join(dir, '..')
     ## get list of files
-    files = listdir(path)
+    files = listdir(dir)
 
     for file in files:
         if not args.interactive or prompt('Move %s?' % join(dir, file)):
@@ -55,17 +55,17 @@ def move_dir_content(dir):
 
 def main(args):
     if args.current:
-        move_dir_content(args.path)
+        move_dir_content(args.path, args)
     elif args.recursive:
         dirs = sorted_aphanumeric(args.path, dirs=True)
         for dir in [join(args.path, d) for d in dirs]:
             subdirs = sorted_aphanumeric(dir, dirs=True)
             for subdir in [join(dir, sd) for sd in subdirs]:
-                move_dir_content(subdir)
+                move_dir_content(subdir, args)
     else:
         dirs = sorted_aphanumeric(args.path, dirs=True)
         for dir in [join(args.path, d) for d in dirs]:
-            move_dir_content(dir)
+            move_dir_content(dir, args)
 
 
 if __name__ == '__main__':
