@@ -1,11 +1,11 @@
 # batch-file-manage-python
 
-Contains a set of scripts to ease the enable of batches of files, in particular images (e.g., mangas or comics collections).
+Contains a set of scripts to enable processing of batches of files, in particular images (e.g., mangas or comics collections).
 
 ## Prerequirements
 
 Scripts use `os`, `shutil`, `argparse`, `PIL` and `matplotlib`.
-If available in python env, will load `argcomplete`.
+If available in python env, will load `argcomplete` for autocomplete.
 
 
 ## Installation
