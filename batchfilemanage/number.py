@@ -19,7 +19,7 @@ def create_args(subparsers=None):
     parser.add_argument('-i', dest='index', help='starting index', default=1, type=int)
     parser.add_argument('-d', dest='digits', help='number of digits', default=3, choices=[2, 3], type=int)
     parser.add_argument('-r', dest='recursive', help='recursively number in all subdirectories', action='store_true')
-    parser.add_argument('-k', dest='keepindex', help='recursively number in all subdirectories without reseting index', action='store_true')
+    parser.add_argument('-k', dest='keepindex', help='number working directory, then recursively number in all subdirectories without reseting index', action='store_true')
     parser.add_argument('-g', dest='gap', help='gap between each successive index', default=1, type=int)
     parser.add_argument('-t', dest='test', help='test mode (no actual renaming)', action='store_true')
 
@@ -76,7 +76,9 @@ def main(args):
         ## get list of directories in path
         dirs = sorted_aphanumeric(args.path, dirs=True)
 
-        index = args.index
+        if args.keepindex:
+            index = number_folder(args.path, args.index, args)
+
         for dir in [join(args.path, d) for d in dirs]:
             if not args.keepindex:
                 index = args.index
