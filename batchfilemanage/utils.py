@@ -31,16 +31,13 @@ def prompt(message, values=None):
 
 def get_ext(file):
     """Return the extension of the given filename."""
-    return file.split('.')[-1]
+    return splitext(file.lower())[1]
 
 
 def remove_ext(file):
     """Return the given filename without its extension."""
-    l = file.split('.')
-    if len(l) > 1:
-        return l[0]
-    else:
-        return file
+    return splitext(file.lower())[0]
+
 
 
 def sorted_aphanumeric(path, ext=[], ignore=[], dirs=False):
