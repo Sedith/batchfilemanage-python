@@ -5,8 +5,8 @@ import batchfilemanage
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Batch file manager.')
-    subparsers = parser.add_subparsers(dest='command', description='Command to be called.', required=True)
+    parser = argparse.ArgumentParser(description='batch file manager')
+    subparsers = parser.add_subparsers(dest='command', description='command to be called', required=True)
 
     ## create arg parsers for each subcommands
     batchfilemanage.cbz.create_args(subparsers)
