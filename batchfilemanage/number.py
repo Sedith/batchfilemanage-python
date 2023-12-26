@@ -26,11 +26,11 @@ def create_args(subparsers=None):
     return parser
 
 
-def number_folder(path, index):
+def number_folder(path, index, args):
     ## get list of images
-    images = sorted_aphanumeric(path, ignore=args.ignore, ext=['jpg', 'png', 'jpeg'])
+    images = sorted_aphanumeric(path, ext=['jpg', 'png', 'jpeg'])
 
-    print('Renaming in directory %s' % dir)
+    print('Renaming in directory %s' % path)
     names = []
     for file in images:
         ## get file extension
@@ -80,9 +80,9 @@ def main(args):
         for dir in [join(args.path, d) for d in dirs]:
             if not args.keepindex:
                 index = args.index
-            index = number_folder(dir, index)
+            index = number_folder(dir, index, args)
     else:
-        number_folder(args.path, args.index)
+        number_folder(args.path, args.index, args)
 
 
 if __name__ == '__main__':
